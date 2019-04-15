@@ -1,0 +1,96 @@
+<html>
+    <head>
+        <title>Welcome!</title>
+        <meta name="author" content="Nicholas Conrad">
+        <link rel="stylesheet" href="/static/style.css">
+    </head>
+    <body>  
+        <div id='header'>
+            RMDS (Risk Management Data System)<br>
+            By: Nicholas Conrad
+        </div>
+        <div id='body'>
+        <form method="post">
+            Name your risk (Max 16 char)<br><br><input required placeholder="Risk Name" name='riskName' maxlength="16"/><br><br>
+            What kinds of data do you want to collect?<br>
+            <span><i>Seperate Enum options with a comma (,)</i></span><br><span style='color: red;font-size: 12px;'>Fields with empty names will be ignored.</span><br><br>
+            <div id='fieldSet'><input placeholder='Field Name' name='fieldNames' maxlength="16"/><select onchange="changedType(this)" name='fieldTypes'>
+                    <option value="text">Simple Text</option>
+                    <option value="number">Number</option>
+                    <option value="email">Email</option>
+                    <option value="date">Date</option>
+                    <option value="enum">Enum</option>
+                </select><input placeholder="Enum options" name='enumOpts' style='visibility: hidden' maxlength="16"/></div>
+            <br><button onclick="addField()" type="button">Add Field</button><br><br>
+            
+            <input type="submit"/>
+        </form>
+        
+        </div>
+        <script type="text/javascript">
+            var numOfFields = 0;
+            
+            function changedType(element) {
+                for(var i = 0; i < document.getElementsByName("fieldTypes").length; i++) {
+                    if(document.getElementsByName("fieldTypes")[i] == element) {
+                        if(document.getElementsByName("fieldTypes")[i].value == "enum"){
+                            document.getElementsByName("enumOpts")[i].style.visibility = "visible";
+                        } else {
+                            document.getElementsByName("enumOpts")[i].style.visibility = "hidden";
+                        }
+                    }
+                }
+            }
+            
+            function addField() {
+                var fieldName = document.createElement("input");
+                fieldName.placeholder = "Field Name";
+                fieldName.maxlength = "16";
+                fieldName.name = "fieldNames";
+                
+                var fieldType = document.createElement("select");
+                fieldType.name = "fieldTypes";
+                fieldType.onchange = function() {
+                    
+                    changedType(this);
+                }
+                
+                var option1 = document.createElement("option");
+                option1.text = "Simple Text";
+                option1.value = "text";
+                fieldType.add(option1);
+                
+                var option2 = document.createElement("option");
+                option2.text = "Number";
+                option2.value = "number";
+                fieldType.add(option2);
+                
+                var option3 = document.createElement("option");
+                option3.text = "Email";
+                option3.value = "email";
+                fieldType.add(option3);
+                
+                var option4 = document.createElement("option");
+                option4.text = "Date";
+                option4.value = "date";
+                fieldType.add(option4);
+                
+                var option5 = document.createElement("option");
+                option5.text = "Enum";
+                option5.value = "enum";
+                fieldType.add(option5);
+                
+                var enumOpts = document.createElement("input");
+                enumOpts.placeholder = "Enum options";
+                enumOpts.maxlength = "16";
+                enumOpts.name = "enumOpts";
+                enumOpts.style.visibility = "hidden";
+                
+                document.getElementById("fieldSet").appendChild(document.createElement("br"));
+                document.getElementById("fieldSet").appendChild(fieldName);
+                document.getElementById("fieldSet").appendChild(fieldType);
+                document.getElementById("fieldSet").appendChild(enumOpts);
+            }
+        </script>
+    </body>
+</html>
